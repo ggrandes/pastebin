@@ -46,6 +46,7 @@ public class PasteBin extends HttpServlet {
 	//
 	private static final int MAX_LENGTH = 65520;
 	private static final int KEY_SPACE = 8;
+	private static final int MAX_COLLISION = 5;
 	//
 	private static final Charset iso = Charset.forName("ISO-8859-1");
 	private PersistentStorage store;
@@ -107,7 +108,27 @@ public class PasteBin extends HttpServlet {
 					"Request Entity Too Large");
 			return;
 		}
-		final String key = hashData(data);
+		String key = hashData(data);
+		int collision = 0;
+		while (true) { // Handle possible collisions
+			final MetaHolder meta = store.get(key);
+			// Dont exists
+			if (meta == null)
+				break;
+			// Duplicated
+			if (data.equals(meta.data)) {
+				sendResponse(response, out, key);
+				return;
+			}
+			// Collision
+			if (++collision > MAX_COLLISION) {
+				log.error("Too many collisions { id=" + key + " }");
+				sendError(response, out, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+						"ERROR: Unable to Store Data");
+				return;
+			}
+			key = hashData(Integer.toString(collision) + ":" + data);
+		}
 		store.put(key, data);
 		sendResponse(response, out, key);
 	}
