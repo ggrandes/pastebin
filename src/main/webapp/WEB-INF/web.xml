@@ -9,7 +9,7 @@
 	</welcome-file-list>
 	<servlet>
 		<servlet-name>PasteBin</servlet-name>
-		<servlet-class>net.cloud.servlet.PasteBin</servlet-class>
+		<servlet-class>org.javastack.pastebin.PasteBin</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>PasteBin</servlet-name>
