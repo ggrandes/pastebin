@@ -4,9 +4,8 @@
 
 	<groupId>org.javastack</groupId>
 	<artifactId>pastebin</artifactId>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
-	<version>0.0.3</version>
-	<name>pastebin</name>
 
 	<dependencies>
 		<dependency>
@@ -17,12 +16,18 @@
 		<dependency>
 			<groupId>org.javastack</groupId>
 			<artifactId>packer</artifactId>
-			<version>1.0.0</version>
+			<version>1.1.1</version>
+		</dependency>
+		<!-- Servlets -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>pastebin</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -33,6 +38,45 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<!-- Package WAR to upload to repo -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Built-By>maven</Built-By>
+						</manifestEntries>
+					</archive>
+					<warName>${project.artifactId}-${project.version}</warName>
+					<archiveClasses>true</archiveClasses>
+				</configuration>
+			</plugin>
 		</plugins>
+		<!-- Deployment Maven-S3 -->
+		<extensions>
+			<extension>
+				<groupId>org.springframework.build</groupId>
+				<artifactId>aws-maven</artifactId>
+				<version>4.4.0.RELEASE</version>
+			</extension>
+		</extensions>
 	</build>
+	<!-- Deployment -->
+	<distributionManagement>
+		<repository>
+			<name>S3 Release Repository</name>
+			<id>maven-s3-release-repo</id>
+			<url>s3://maven-release/release</url>
+		</repository>
+		<snapshotRepository>
+			<name>S3 Snapshot Repository</name>
+			<id>maven-s3-snapshot-repo</id>
+			<url>s3://maven-snapshot/snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
