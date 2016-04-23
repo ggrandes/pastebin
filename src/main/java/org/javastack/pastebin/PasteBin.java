@@ -12,7 +12,7 @@
  * limitations under the License.
  *
  */
-package org.javastack.pasterbin;
+package org.javastack.pastebin;
 
 import java.io.File;
 import java.io.IOException;
