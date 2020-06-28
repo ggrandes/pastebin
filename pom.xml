@@ -4,8 +4,30 @@
 
 	<groupId>org.javastack</groupId>
 	<artifactId>pastebin</artifactId>
-	<version>1.0.0</version>
 	<packaging>war</packaging>
+	<version>1.0.0</version>
+	<description>PasteBin is a lightweight server clone of concept behind pastebin.com</description>
+
+	<name>${project.groupId}:${project.artifactId}</name>
+	<url>https://github.com/ggrandes/${project.artifactId}</url>
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<id>ggrandes</id>
+			<name>Guillermo Grandes</name>
+			<email>guillermo.grandes@gmail.com</email>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git:git@github.com:ggrandes/${project.artifactId}.git</connection>
+		<developerConnection>scm:git:git@github.com:ggrandes/${project.artifactId}.git</developerConnection>
+		<url>git@github.com:ggrandes/${project.artifactId}.git</url>
+	</scm>
 
 	<dependencies>
 		<dependency>
